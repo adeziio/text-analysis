@@ -28,13 +28,13 @@ export default class NavBar extends Component {
                 size="large"
                 pointing secondary
                 color="blue"
-                // widths={3} 
+                widths={4}
                 className="navbar-container"
             >
                 <Menu.Item>
                     <Header as='h2' color="blue">
-                        <Icon name='pencil alternate' />
                         <Header.Content>
+                            <Icon name='pencil alternate' />
                             adeziio
                             <Header.Subheader>Text Analysis</Header.Subheader>
                         </Header.Content>

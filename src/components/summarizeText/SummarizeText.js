@@ -69,13 +69,13 @@ export default class SummarizeText extends Component {
                         <Grid.Column style={{ margin: "1rem" }}>
                             <Header as='h3'>Original Text <Icon name='pencil alternate' /></Header>
                             <Form>
-                                <TextArea placeholder='' style={{ minHeight: 500, minWidth: 500 }} onChange={this.handleInput} />
+                                <TextArea placeholder='' style={{ minHeight: 500, minWidth: "100%" }} onChange={this.handleInput} />
                             </Form>
                         </Grid.Column>
                         <Grid.Column style={{ margin: "1rem" }}>
                             <Header as='h3'>Summarized Text <Icon name='idea' /></Header>
                             <Form>
-                                <TextArea placeholder='' style={{ minHeight: 500, minWidth: 500 }} value={summarizedText} />
+                                <TextArea placeholder='' style={{ minHeight: 500, minWidth: "100%" }} value={summarizedText} />
                             </Form>
                         </Grid.Column>
                     </Grid.Row>

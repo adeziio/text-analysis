@@ -63,11 +63,11 @@ export default class SentimentAnalysis extends Component {
         return (
             <div>
                 <Grid centered stackable>
-                    <Grid.Row columns={3}>
+                    <Grid.Row columns={4}>
                         <Grid.Column style={{ margin: "1rem" }}>
                             <Header as='h3'>Sentence </Header>
                             <Form>
-                                <TextArea placeholder='' style={{ minHeight: 120, minWidth: 500 }} onChange={this.handleInput} />
+                                <TextArea placeholder='' style={{ minHeight: 100, minWidth: "100%" }} onChange={this.handleInput} />
                             </Form>
                         </Grid.Column>
                         <Grid.Column style={{ margin: "1rem" }} >
