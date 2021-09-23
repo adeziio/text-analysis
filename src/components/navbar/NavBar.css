@@ -1,9 +1,26 @@
-.menu.navbar-container {
+.navbar-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
     padding-left: 5%;
-    padding-right: 5%;
+    background-color: #2185d0 !important;
+    color: white !important;
 }
 
-.disclaimer {
-    background-color: #e03997 !important;
+.navbar-item {
     color: white !important;
+    font-size: 18px;
+}
+
+.navbar-item.active {
+    border-bottom: 1px solid white;
+}
+
+#basic-navbar-nav {
+    background-color: #2185d0 !important;
+    color: white !important;
+}
+
+.navbar-toggler {
+    background-color: white !important;
+    border: 1px solid black !important;
 }
