@@ -1,0 +1,16 @@
+.header-container {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+.content-container {
+    margin-top: 2rem;
+    background-color: white;
+    display: inline-block;
+    min-height: 35rem;
+    width: 70%;
+}
+
+.footer-container {
+    margin: 2rem;
+}

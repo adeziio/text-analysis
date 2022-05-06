@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import './SentimentAnalysis.css'
-import { Grid, Form, TextArea, Header } from 'semantic-ui-react';
-import { FaSmile, FaFrown, FaQuestionCircle } from 'react-icons/fa';
+import { Typography, TextField } from '@mui/material';
+import { SentimentNeutral, SentimentSatisfied, SentimentDissatisfied } from '@mui/icons-material';
 
 export default class SentimentAnalysis extends Component {
     constructor(props) {
         super(props);
         this.state = {
             originalText: "",
-            sentiment: "",
+            sentiment: "neutral",
             delayCounter: 0,
         }
-    }
-
-    componentDidMount = () => {
-        document.title = "Summarize Text";
     }
 
     handleInput = (e) => {
@@ -30,7 +25,8 @@ export default class SentimentAnalysis extends Component {
 
     fetchData = (originalText) => {
         if (this.state.delayCounter === 1) {
-            if (originalText !== "") {
+            console.log(originalText)
+            if (originalText.trim() !== "") {
                 fetch("https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1", {
                     "method": "POST",
                     "headers": {
@@ -40,7 +36,7 @@ export default class SentimentAnalysis extends Component {
                     },
                     "body": JSON.stringify({
                         "language": "english",
-                        "text": originalText
+                        "text": originalText.trim().replace(/[^\w ]/g, '')
                     })
                 })
                     .then(response => response.json())
@@ -48,7 +44,7 @@ export default class SentimentAnalysis extends Component {
             }
             else {
                 this.setState({
-                    sentiment: ""
+                    sentiment: "neutral"
                 })
             }
         }
@@ -61,27 +57,23 @@ export default class SentimentAnalysis extends Component {
         let { sentiment } = this.state;
 
         return (
-            <div>
-                <Grid centered stackable>
-                    <Grid.Row columns={4}>
-                        <Grid.Column style={{ margin: "1rem" }}>
-                            <Header as='h3'>Sentence </Header>
-                            <Form>
-                                <TextArea placeholder='' style={{ minHeight: 100, minWidth: "100%" }} onChange={this.handleInput} />
-                            </Form>
-                        </Grid.Column>
-                        <Grid.Column style={{ margin: "1rem" }} >
-                            <Header as='h3'>Sentiment</Header>
-                            {sentiment === "positive" ?
-                                <FaSmile color='lightgreen' size="100px" /> :
-                                sentiment === "negative" ?
-                                    <FaFrown color='lightcoral' size="100px" /> :
-                                    <FaQuestionCircle color="lightgrey" size="100px" />
-                            }
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </div>
+            <>
+                <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
+                    Sentiment Analysis
+                </Typography>
+                <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
+                    {sentiment === "neutral" ? <SentimentNeutral sx={{ fontSize: 100, color: "gray" }} />
+                        : sentiment === "positive" ? <SentimentSatisfied sx={{ fontSize: 100, color: "lime" }} />
+                            : sentiment === "negative" ? <SentimentDissatisfied sx={{ fontSize: 100, color: "red" }} />
+                                : null
+                    }
+                </Typography>
+                <TextField label="Text" variant="outlined" onChange={this.handleInput}
+                    fullWidth
+                    multiline
+                    maxRows={15}
+                />
+            </>
         )
     }
 }

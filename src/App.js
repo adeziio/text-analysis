@@ -1,31 +1,21 @@
 import './App.css';
-import NavBar from './components/navbar/NavBar';
-import 'semantic-ui-css/semantic.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect
+  Navigate
 } from 'react-router-dom';
-import SummarizeText from './components/summarizeText/SummarizeText';
-import SentimentAnalysis from './components/sentimentAnalysis/SentimentAnalysis';
+import './css/style.css';
+import Main from './components/layout/Main';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
-        <Switch>
-          <Route path="/summarize-text">
-            <SummarizeText />
-          </Route>
-          <Route path="/sentiment-analysis">
-            <SentimentAnalysis />
-          </Route>
-          <Route exact path="/" render={() => (<Redirect to="/summarize-text" />)} />
-          <Route exact path="/*" render={() => (<Redirect to="/summarize-text" />)} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
       </Router>
     </div>
   );
