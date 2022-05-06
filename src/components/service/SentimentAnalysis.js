@@ -25,7 +25,6 @@ export default class SentimentAnalysis extends Component {
 
     fetchData = (originalText) => {
         if (this.state.delayCounter === 1) {
-            console.log(originalText)
             if (originalText.trim() !== "") {
                 fetch("https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1", {
                     "method": "POST",
