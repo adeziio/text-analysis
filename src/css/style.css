@@ -1,5 +1,5 @@
 .header-container {
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .content-container {
@@ -7,9 +7,9 @@
     background-color: white;
     display: inline-block;
     min-height: 35rem;
-    width: 70%;
+    width: 90%;
 }
 
 .footer-container {
-    margin: 2rem;
+    margin: 1rem;
 }

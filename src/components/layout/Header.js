@@ -53,7 +53,7 @@ export default class Header extends Component {
 
         return (
             <>
-                <AppBar position="static" sx={{ backgroundColor: "#2185d0" }}>
+                <AppBar position="fixed" sx={{ backgroundColor: "#2185d0" }}>
                     <Container maxWidth="xl">
                         <Toolbar disableGutters>
                             <Typography
