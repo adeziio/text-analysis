@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Typography, TextField } from '@mui/material';
-import { SentimentNeutral, SentimentSatisfied, SentimentDissatisfied } from '@mui/icons-material';
 
-export default class SentimentAnalysis extends Component {
+export default class LanguageDetection extends Component {
     constructor(props) {
         super(props);
         this.state = {
             originalText: "",
-            sentiment: "neutral",
+            languages: {},
             delayCounter: 0,
         }
     }
@@ -26,7 +25,7 @@ export default class SentimentAnalysis extends Component {
     fetchData = (originalText) => {
         if (this.state.delayCounter === 1) {
             if (originalText.trim() !== "") {
-                fetch("https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1", {
+                fetch("https://text-analysis12.p.rapidapi.com/language-detection/api/v1.1", {
                     "method": "POST",
                     "headers": {
                         "content-type": "application/json",
@@ -34,16 +33,15 @@ export default class SentimentAnalysis extends Component {
                         "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
                     },
                     "body": JSON.stringify({
-                        "language": "english",
-                        "text": originalText.trim().replace(/[^\w ]/g, '')
+                        "text": originalText.trim()
                     })
                 })
                     .then(response => response.json())
-                    .then(resData => { this.setState({ sentiment: resData.sentiment ?? "" }) })
+                    .then(resData => { this.setState({ languages: resData.language_probability ?? {} }) })
             }
             else {
                 this.setState({
-                    sentiment: "neutral"
+                    languages: {}
                 })
             }
         }
@@ -53,24 +51,40 @@ export default class SentimentAnalysis extends Component {
     }
 
     render() {
-        let { sentiment } = this.state;
+        let { languages } = this.state;
+        let languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
+
+        const languageNames = new Intl.DisplayNames(['en'], {
+            type: 'language'
+        });
 
         return (
             <>
                 <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
-                    Sentiment Analysis
-                </Typography>
-                <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
-                    {sentiment === "neutral" ? <SentimentNeutral sx={{ fontSize: 100, color: "gray" }} />
-                        : sentiment === "positive" ? <SentimentSatisfied sx={{ fontSize: 100, color: "lime" }} />
-                            : sentiment === "negative" ? <SentimentDissatisfied sx={{ fontSize: 100, color: "red" }} />
-                                : null
-                    }
+                    Language Detection
                 </Typography>
                 <TextField label="Text" variant="outlined" onChange={this.handleInput}
                     multiline
                     maxRows={15}
                 />
+
+                {languages_list.length > 0 ?
+                    <>
+                        <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
+                            Possible Languages
+                        </Typography>
+                        {languages_list.map((key, index) => {
+                            return (
+                                <Typography variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
+                                    <span style={{ fontWeight: "bold" }}>{`${index + 1}. `}</span>
+                                    {`${languageNames.of(key)}`}
+                                </Typography>
+                            )
+                        })
+
+                        }
+                    </> : null
+                }
             </>
         )
     }

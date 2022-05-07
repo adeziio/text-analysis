@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import SentimentAnalysis from '../service/SentimentAnalysis';
 import SummarizeText from '../service/SummarizeText';
 import Help from '../service/Help';
+import LanguageDetection from '../service/LanguageDetection';
 
 export default class Main extends Component {
     constructor(props) {
@@ -32,8 +33,9 @@ export default class Main extends Component {
                 <div className="content-container">
                     {page === "Sentiment Analysis" ? <SentimentAnalysis />
                         : page === "Summarize Text" ? <SummarizeText />
-                            : page === "Help" ? <Help />
-                                : null
+                            : page === "Language Detection" ? <LanguageDetection />
+                                : page === "Help" ? <Help />
+                                    : null
                     }
                 </div>
 
