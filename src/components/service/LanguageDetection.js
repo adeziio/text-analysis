@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Typography, TextField } from '@mui/material';
+import isoCodes from './../../data/isoCodes.json';
 
 export default class LanguageDetection extends Component {
     constructor(props) {
@@ -54,10 +55,6 @@ export default class LanguageDetection extends Component {
         let { languages } = this.state;
         let languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
 
-        let languageNames = new Intl.DisplayNames(['en'], {
-            type: 'language'
-        });
-
         return (
             <>
                 <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
@@ -77,7 +74,7 @@ export default class LanguageDetection extends Component {
                             return (
                                 <Typography variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
                                     <span style={{ fontWeight: "bold" }}>{`${index + 1}. `}</span>
-                                    {`${languageNames.of(key)}`}
+                                    {`${isoCodes[key]["name"]}`}
                                 </Typography>
                             )
                         })
