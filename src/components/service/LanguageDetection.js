@@ -54,7 +54,7 @@ export default class LanguageDetection extends Component {
         let { languages } = this.state;
         let languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
 
-        const languageNames = new Intl.DisplayNames(['en'], {
+        let languageNames = new Intl.DisplayNames(['en'], {
             type: 'language'
         });
 
