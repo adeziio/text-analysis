@@ -26,6 +26,10 @@ export default class Help extends Component {
                     <span style={{ fontWeight: "bold" }}>Language Detection </span>
                     is the problem of determining which natural language given content is in.
                 </Typography>
+                <Typography variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
+                    <span style={{ fontWeight: "bold" }}>Text Extraction </span>
+                    is the process of extracting text from a file or a url link to a website.
+                </Typography>
             </>
         )
     }
