@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
-import { Typography, Grid, TextField } from '@mui/material';
+import { Typography, TextField, Alert } from '@mui/material';
+import { fetchSummarizeText } from '../../api/BackendAPI';
 
 export default class SummarizeText extends Component {
     constructor(props) {
         super(props);
         this.state = {
             originalText: "",
-            summarizedText: "",
+            summarizeText: "",
             delayCounter: 0,
+            resMsg: undefined
         }
+    }
+
+    setSummarizeText = (summarizeText) => {
+        this.setState({
+            summarizeText: summarizeText
+        })
+    }
+
+    setResMsg = (resMsg) => {
+        this.setState({
+            resMsg: resMsg
+        })
     }
 
     handleInput = (e) => {
@@ -22,28 +36,28 @@ export default class SummarizeText extends Component {
         })
     }
 
-    fetchData = (originalText) => {
+    fetchData = async (originalText) => {
         if (this.state.delayCounter === 1) {
             if (originalText.trim() !== "") {
-                fetch("https://text-analysis12.p.rapidapi.com/summarize-text/api/v1.1", {
-                    "method": "POST",
-                    "headers": {
-                        'content-type': 'application/json',
-                        'X-RapidAPI-Host': 'text-analysis12.p.rapidapi.com',
-                        'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY
-                    },
-                    "body": JSON.stringify({
-                        "language": "english",
-                        "text": originalText.trim()
-                    })
-                })
-                    .then(response => response.json())
-                    .then(resData => { this.setState({ summarizedText: resData.summary ?? "Invalid Text." }) })
+                const response = await fetchSummarizeText(originalText.trim());
+                if (response) {
+                    if (response.summary) {
+                        this.setSummarizeText(response.summary);
+                        this.setResMsg(undefined);
+                    }
+                    else {
+                        this.setSummarizeText("");
+                        this.setResMsg(response.msg);
+                    }
+                }
+                else {
+                    this.setSummarizeText("");
+                    this.setResMsg("Unexpected Error");
+                }
             }
             else {
-                this.setState({
-                    summarizedText: ""
-                })
+                this.setSummarizeText("");
+                this.setResMsg(undefined);
             }
         }
         this.setState({
@@ -52,30 +66,26 @@ export default class SummarizeText extends Component {
     }
 
     render() {
-        let { summarizedText } = this.state;
+        let { summarizeText, resMsg } = this.state;
 
         return (
             <>
                 <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
                     Summarize Text
                 </Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <TextField label="Original Text" variant="outlined" onChange={this.handleInput}
-                            fullWidth
-                            multiline
-                            rows={20}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField label="Summarize Text" variant="outlined"
-                            fullWidth
-                            multiline
-                            rows={20}
-                            value={summarizedText}
-                        />
-                    </Grid>
-                </Grid>
+                {resMsg ? <Alert sx={{ marginTop: 1 }} severity="error">{resMsg}</Alert> : null}
+                <TextField label="Original Text" variant="outlined" onChange={this.handleInput}
+                    fullWidth
+                    multiline
+                    rows={9}
+                />
+                <TextField label="Summarize Text" variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={9}
+                    value={summarizeText}
+                    sx={{ marginTop: "1rem" }}
+                />
             </>
         )
     }

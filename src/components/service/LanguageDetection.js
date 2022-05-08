@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Typography, TextField } from '@mui/material';
+import { Typography, TextField, Alert } from '@mui/material';
 import isoCodes from './../../data/isoCodes.json';
+import { fetchLanguageDetection } from '../../api/BackendAPI';
 
 export default class LanguageDetection extends Component {
     constructor(props) {
@@ -9,7 +10,20 @@ export default class LanguageDetection extends Component {
             originalText: "",
             languages: {},
             delayCounter: 0,
+            resMsg: undefined
         }
+    }
+
+    setLanguages = (languages) => {
+        this.setState({
+            languages: languages
+        })
+    }
+
+    setResMsg = (resMsg) => {
+        this.setState({
+            resMsg: resMsg
+        })
     }
 
     handleInput = (e) => {
@@ -23,27 +37,28 @@ export default class LanguageDetection extends Component {
         })
     }
 
-    fetchData = (originalText) => {
+    fetchData = async (originalText) => {
         if (this.state.delayCounter === 1) {
             if (originalText.trim() !== "") {
-                fetch("https://text-analysis12.p.rapidapi.com/language-detection/api/v1.1", {
-                    "method": "POST",
-                    "headers": {
-                        "content-type": "application/json",
-                        "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                        "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-                    },
-                    "body": JSON.stringify({
-                        "text": originalText.trim()
-                    })
-                })
-                    .then(response => response.json())
-                    .then(resData => { this.setState({ languages: resData.language_probability ?? {} }) })
+                const response = await fetchLanguageDetection(originalText.trim());
+                if (response) {
+                    if (response.language_probability) {
+                        this.setLanguages(response.language_probability);
+                        this.setResMsg(undefined);
+                    }
+                    else {
+                        this.setLanguages({});
+                        this.setResMsg(response.msg);
+                    }
+                }
+                else {
+                    this.setLanguages({})
+                    this.setResMsg("Unexpected Error");
+                }
             }
             else {
-                this.setState({
-                    languages: {}
-                })
+                this.setLanguages({});
+                this.setResMsg(undefined);
             }
         }
         this.setState({
@@ -52,7 +67,7 @@ export default class LanguageDetection extends Component {
     }
 
     render() {
-        let { languages } = this.state;
+        let { languages, resMsg } = this.state;
         let languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
 
         return (
@@ -64,7 +79,7 @@ export default class LanguageDetection extends Component {
                     multiline
                     maxRows={15}
                 />
-
+                {resMsg ? <Alert sx={{ marginTop: 1 }} severity="error">{resMsg}</Alert> : null}
                 {languages_list.length > 0 ?
                     <>
                         <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >

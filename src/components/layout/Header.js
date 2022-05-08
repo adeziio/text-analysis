@@ -48,7 +48,7 @@ export default class Header extends Component {
     render() {
         const { page } = this.props;
         const { anchorElLeft, anchorElRight } = this.state;
-        const leftOption = ['Sentiment Analysis', 'Summarize Text', "Language Detection"];
+        const leftOption = ['Sentiment Analysis', 'Summarize Text', 'Language Detection', 'Text Extraction'];
         const rightOption = ['Help'];
 
         return (

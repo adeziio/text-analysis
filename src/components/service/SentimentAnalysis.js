@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Typography, TextField } from '@mui/material';
+import { Typography, TextField, Alert } from '@mui/material';
 import { SentimentNeutral, SentimentSatisfied, SentimentDissatisfied } from '@mui/icons-material';
+import { fetchSentimentAnalysis } from '../../api/BackendAPI';
 
 export default class SentimentAnalysis extends Component {
     constructor(props) {
@@ -9,7 +10,20 @@ export default class SentimentAnalysis extends Component {
             originalText: "",
             sentiment: "neutral",
             delayCounter: 0,
+            resMsg: undefined
         }
+    }
+
+    setSentiment = (sentiment) => {
+        this.setState({
+            sentiment: sentiment
+        })
+    }
+
+    setResMsg = (resMsg) => {
+        this.setState({
+            resMsg: resMsg
+        })
     }
 
     handleInput = (e) => {
@@ -23,28 +37,28 @@ export default class SentimentAnalysis extends Component {
         })
     }
 
-    fetchData = (originalText) => {
+    fetchData = async (originalText) => {
         if (this.state.delayCounter === 1) {
             if (originalText.trim() !== "") {
-                fetch("https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1", {
-                    "method": "POST",
-                    "headers": {
-                        "content-type": "application/json",
-                        "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                        "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-                    },
-                    "body": JSON.stringify({
-                        "language": "english",
-                        "text": originalText.trim().replace(/[^\w ]/g, '')
-                    })
-                })
-                    .then(response => response.json())
-                    .then(resData => { this.setState({ sentiment: resData.sentiment ?? "" }) })
+                const response = await fetchSentimentAnalysis(originalText.trim().replace(/[^\w ]/g, ''));
+                if (response) {
+                    if (response.sentiment) {
+                        this.setSentiment(response.sentiment);
+                        this.setResMsg(undefined);
+                    }
+                    else {
+                        this.setSentiment("neutral");
+                        this.setResMsg(response.msg);
+                    }
+                }
+                else {
+                    this.setSentiment("neutral");
+                    this.setResMsg("Unexpected Error");
+                }
             }
             else {
-                this.setState({
-                    sentiment: "neutral"
-                })
+                this.setSentiment("neutral");
+                this.setResMsg(undefined);
             }
         }
         this.setState({
@@ -53,7 +67,7 @@ export default class SentimentAnalysis extends Component {
     }
 
     render() {
-        let { sentiment } = this.state;
+        let { sentiment, resMsg } = this.state;
 
         return (
             <>
@@ -71,6 +85,7 @@ export default class SentimentAnalysis extends Component {
                     multiline
                     maxRows={15}
                 />
+                {resMsg ? <Alert sx={{ marginTop: 1 }} severity="error">{resMsg}</Alert> : null}
             </>
         )
     }

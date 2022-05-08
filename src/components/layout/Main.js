@@ -5,6 +5,7 @@ import SentimentAnalysis from '../service/SentimentAnalysis';
 import SummarizeText from '../service/SummarizeText';
 import Help from '../service/Help';
 import LanguageDetection from '../service/LanguageDetection';
+import TextExtraction from '../service/TextExtraction';
 
 export default class Main extends Component {
     constructor(props) {
@@ -34,8 +35,9 @@ export default class Main extends Component {
                     {page === "Sentiment Analysis" ? <SentimentAnalysis />
                         : page === "Summarize Text" ? <SummarizeText />
                             : page === "Language Detection" ? <LanguageDetection />
-                                : page === "Help" ? <Help />
-                                    : null
+                                : page === "Text Extraction" ? <TextExtraction />
+                                    : page === "Help" ? <Help />
+                                        : null
                     }
                 </div>
 
