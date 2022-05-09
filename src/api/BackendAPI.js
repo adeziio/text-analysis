@@ -10,11 +10,12 @@ export const fetchSentimentAnalysis = async (text) => {
             "language": "english",
             "text": text
         })
-    }).catch(err => {
-        return false;
     })
-    if (res) {
+    if (res.status === 200) {
         return await res.json();
+    }
+    else {
+        return false;
     }
 }
 
@@ -30,11 +31,12 @@ export const fetchSummarizeText = async (text) => {
             "language": "english",
             "text": text
         })
-    }).catch(err => {
-        return false;
     })
-    if (res) {
+    if (res.status === 200) {
         return await res.json();
+    }
+    else {
+        return false;
     }
 }
 
@@ -49,11 +51,12 @@ export const fetchLanguageDetection = async (text) => {
         "body": JSON.stringify({
             "text": text
         })
-    }).catch(err => {
-        return false;
     })
-    if (res) {
+    if (res.status === 200) {
         return await res.json();
+    }
+    else {
+        return false;
     }
 }
 
@@ -69,11 +72,12 @@ export const fetchWebsiteExtraction = async (url) => {
             "language": "english",
             "url": url
         })
-    }).catch(err => {
-        return false;
     })
-    if (res) {
+    if (res.status === 200) {
         return await res.json();
+    }
+    else {
+        return false;
     }
 }
 
@@ -89,11 +93,12 @@ export const fetchFileExtraction = async (file) => {
             "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
         },
         "body": formData
-    }).catch(err => {
-        return false;
     })
-    if (res) {
+    if (res.status === 200) {
         return await res.json();
+    }
+    else {
+        return false;
     }
 }
 
