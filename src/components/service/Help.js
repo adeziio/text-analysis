@@ -28,7 +28,7 @@ export default class Help extends Component {
                 </Typography>
                 <Typography variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
                     <span style={{ fontWeight: "bold" }}>Text Extraction </span>
-                    is the process of extracting text from a file or a url link to a website.
+                    is the process of extracting text from a file or url link to a website.
                 </Typography>
             </>
         )
