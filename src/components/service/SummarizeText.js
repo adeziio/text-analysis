@@ -66,7 +66,7 @@ export default class SummarizeText extends Component {
     }
 
     render() {
-        let { summarizeText, resMsg } = this.state;
+        const { summarizeText, resMsg } = this.state;
 
         return (
             <>

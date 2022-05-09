@@ -67,8 +67,8 @@ export default class LanguageDetection extends Component {
     }
 
     render() {
-        let { languages, resMsg } = this.state;
-        let languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
+        const { languages, resMsg } = this.state;
+        const languages_list = Object.keys(languages).sort((a, b) => languages[b] - languages[a])
 
         return (
             <>

@@ -67,7 +67,7 @@ export default class SentimentAnalysis extends Component {
     }
 
     render() {
-        let { sentiment, resMsg } = this.state;
+        const { sentiment, resMsg } = this.state;
 
         return (
             <>
