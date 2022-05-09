@@ -142,7 +142,7 @@ export default class TextExtraction extends Component {
                             {type === "url" ?
                                 <TextField sx={{ marginTop: "-1rem", marginLeft: "0.5rem", marginRight: "0.5rem" }} label="" variant="outlined" onChange={this.handleInput} />
                                 :
-                                <input style={{ marginTop: "1rem", maxWidth: "14rem", marginLeft: "0.5rem", marginRight: "0.5rem" }} type="file" name="file" accept="*" onChange={this.handleFileSelect} />
+                                <input style={{ marginTop: "1rem", maxWidth: "14rem", marginLeft: "0.5rem" }} type="file" name="file" accept="*" onChange={this.handleFileSelect} />
                             }
                         </div>
 
