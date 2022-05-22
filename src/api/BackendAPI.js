@@ -1,16 +1,12 @@
+const freeflashUrl = process.env.REACT_APP_FREEFLASH_URL;
+
 export const fetchSentimentAnalysis = async (text) => {
     try {
-        const res = await fetch(`https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1`, {
-            "method": "POST",
+        const res = await fetch(freeflashUrl + "/sentiment-analysis?text=" + text, {
+            "method": "GET",
             "headers": {
-                "content-type": "application/json",
-                "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-            },
-            "body": JSON.stringify({
-                "language": "english",
-                "text": text
-            })
+                "FREEFLASH_API_KEY": process.env.REACT_APP_FREEFLASH_API_KEY
+            }
         })
         if (res.status === 200) {
             return await res.json();
@@ -26,17 +22,11 @@ export const fetchSentimentAnalysis = async (text) => {
 
 export const fetchSummarizeText = async (text) => {
     try {
-        const res = await fetch(`https://text-analysis12.p.rapidapi.com/summarize-text/api/v1.1`, {
-            "method": "POST",
+        const res = await fetch(freeflashUrl + "/summarize-text?text=" + text, {
+            "method": "GET",
             "headers": {
-                "content-type": "application/json",
-                "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-            },
-            "body": JSON.stringify({
-                "language": "english",
-                "text": text
-            })
+                "FREEFLASH_API_KEY": process.env.REACT_APP_FREEFLASH_API_KEY
+            }
         })
         if (res.status === 200) {
             return await res.json();
@@ -52,16 +42,11 @@ export const fetchSummarizeText = async (text) => {
 
 export const fetchLanguageDetection = async (text) => {
     try {
-        const res = await fetch(`https://text-analysis12.p.rapidapi.com/language-detection/api/v1.1`, {
-            "method": "POST",
+        const res = await fetch(freeflashUrl + "/language-detection?text=" + text, {
+            "method": "GET",
             "headers": {
-                "content-type": "application/json",
-                "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-            },
-            "body": JSON.stringify({
-                "text": text
-            })
+                "FREEFLASH_API_KEY": process.env.REACT_APP_FREEFLASH_API_KEY
+            }
         })
         if (res.status === 200) {
             return await res.json();
@@ -77,15 +62,13 @@ export const fetchLanguageDetection = async (text) => {
 
 export const fetchWebsiteExtraction = async (url) => {
     try {
-        const res = await fetch(`https://text-analysis12.p.rapidapi.com/website-extraction/api/v1.3`, {
+        const res = await fetch("http://127.0.0.1:5000/website-extraction", {
             "method": "POST",
             "headers": {
-                "content-type": "application/x-www-form-urlencoded",
-                "x-rapidapi-host": "text-analysis12.p.rapidapi.com",
-                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
+                'Content-Type': 'application/json',
+                "FREEFLASH_API_KEY": process.env.REACT_APP_FREEFLASH_API_KEY
             },
-            "body": new URLSearchParams({
-                "language": "english",
+            "body": JSON.stringify({
                 "url": url
             })
         })

@@ -87,7 +87,7 @@ export default class LanguageDetection extends Component {
                         </Typography>
                         {languages_list.map((key, index) => {
                             return (
-                                <Typography variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
+                                <Typography key={`${key}-${index}`} variant="p" color="text.primary" fontSize="1rem" display="block" margin="1rem" >
                                     <span style={{ fontWeight: "bold" }}>{`${index + 1}. `}</span>
                                     {`${isoCodes[key]["name"]}`}
                                 </Typography>
