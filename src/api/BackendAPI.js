@@ -62,7 +62,7 @@ export const fetchLanguageDetection = async (text) => {
 
 export const fetchWebsiteExtraction = async (url) => {
     try {
-        const res = await fetch("http://127.0.0.1:5000/website-extraction", {
+        const res = await fetch(freeflashUrl + "/website-extraction", {
             "method": "POST",
             "headers": {
                 'Content-Type': 'application/json',
