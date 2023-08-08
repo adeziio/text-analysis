@@ -8,20 +8,13 @@ export default class SummarizeText extends Component {
         this.state = {
             originalText: "",
             summarizeText: "",
-            delayCounter: 0,
-            resMsg: undefined
+            delayCounter: 0
         }
     }
 
     setSummarizeText = (summarizeText) => {
         this.setState({
             summarizeText: summarizeText
-        })
-    }
-
-    setResMsg = (resMsg) => {
-        this.setState({
-            resMsg: resMsg
         })
     }
 
@@ -43,21 +36,17 @@ export default class SummarizeText extends Component {
                 if (response) {
                     if (response.summary) {
                         this.setSummarizeText(response.summary);
-                        this.setResMsg(undefined);
                     }
                     else {
-                        this.setSummarizeText("");
-                        this.setResMsg(response.msg);
+                        this.setSummarizeText(this.state.originalText);
                     }
                 }
                 else {
-                    this.setSummarizeText("");
-                    this.setResMsg("Unexpected Error");
+                    this.setSummarizeText(this.state.originalText);
                 }
             }
             else {
-                this.setSummarizeText("");
-                this.setResMsg(undefined);
+                this.setSummarizeText(this.state.originalText);
             }
         }
         this.setState({
@@ -66,14 +55,13 @@ export default class SummarizeText extends Component {
     }
 
     render() {
-        const { summarizeText, resMsg } = this.state;
+        const { summarizeText } = this.state;
 
         return (
             <>
                 <Typography variant="h5" color="text.primary" fontSize="1.5rem" fontWeight="bold" margin="1rem" >
                     Summarize Text
                 </Typography>
-                {resMsg ? <Alert sx={{ marginTop: 1 }} severity="error">{resMsg}</Alert> : null}
                 <TextField label="Original Text" variant="outlined" onChange={this.handleInput}
                     fullWidth
                     multiline
